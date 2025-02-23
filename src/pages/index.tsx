@@ -13,11 +13,12 @@ export default function Home() {
   } = trpc.product.getAllProducts.useInfiniteQuery(["products"], {
     getNextPageParam: (lastPage) => lastPage.nextCursor,
   });
+
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error.message}</div>;
   return (
     <Layout>
       <div className="min-h-screen py-16 mx-auto lg:px-48 md:px-24 sm:px-16 px-8">
-        {isLoading && <div>Loading...</div>}
-        {error && <div>Error: {error.message}</div>}
         <div className="flex flex-wrap gap-4 justify-center">
           {products &&
             products.pages.map((page) =>

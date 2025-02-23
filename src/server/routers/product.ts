@@ -16,4 +16,13 @@ export const productRouter = router({
         : null,
     };
   }),
+
+  getProductById: publicProcedure
+    .input(z.object({ id: z.string() }))
+    .query(async ({ input }) => {
+      const response = await axios.get<Product>(
+        `https://fakestoreapi.com/products/${input.id}`
+      );
+      return response.data;
+    }),
 });
