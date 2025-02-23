@@ -14,7 +14,9 @@ export default function NavBar() {
           width={120}
           height={0}
         />
-        <DeliveryLocation />
+        <div className="hidden lg:block">
+          <DeliveryLocation />
+        </div>
         <SearchBar />
         <MenuButtons />
       </div>
