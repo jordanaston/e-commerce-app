@@ -18,7 +18,7 @@ export const productRouter = router({
   }),
 
   getProductById: publicProcedure
-    .input(z.object({ id: z.string() }))
+    .input(z.object({ id: z.number() }))
     .query(async ({ input }) => {
       const response = await axios.get<Product>(
         `https://fakestoreapi.com/products/${input.id}`

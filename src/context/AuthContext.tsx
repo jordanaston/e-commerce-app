@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useState, useEffect } from "react";
 import { trpc } from "../utils/trpc";
 
 import { User } from "@/types/user";
@@ -17,6 +17,16 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   const [user, setUser] = useState<User | null>(null);
   const { data: users } = trpc.user.getAllUsers.useQuery();
 
+  useEffect(() => {
+    const userId = localStorage.getItem("userId");
+    if (userId && users) {
+      const matchedUser = users.find((u) => u.id.toString() === userId);
+      if (matchedUser) {
+        setUser(matchedUser);
+      }
+    }
+  }, [users]);
+
   const loginUser = async (username: string) => {
     const matchedUser = users?.find((u) => u.username === username);
     if (matchedUser) {
@@ -25,7 +35,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     } else {
       console.error("User not found");
     }
-    };
+  };
 
   const logoutUser = async () => {
     await localStorage.removeItem("userId");
@@ -39,7 +49,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   );
 };
 
-// Custom hook to use the AuthContext
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (!context) {

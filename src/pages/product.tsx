@@ -11,7 +11,7 @@ export default function Product() {
     isLoading,
     error,
   } = trpc.product.getProductById.useQuery(
-    { id: id as string },
+    { id: Number(id) },
     {
       enabled: !!id,
     }
