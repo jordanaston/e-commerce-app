@@ -7,10 +7,10 @@ interface LayoutProps {
 
 const Layout = ({ children }: LayoutProps) => {
   return (
-    <div className="bg-background">
+    <>
       <Navbar />
       <main>{children}</main>
-    </div>
+    </>
   );
 };
 
