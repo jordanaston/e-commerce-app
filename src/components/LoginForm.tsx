@@ -1,18 +1,18 @@
-import { trpc } from "../utils/trpc";
-import { Button } from "./ui/button";
-import { Input } from "./ui/input";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Form,
+  FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
-  FormControl,
   FormMessage,
-  FormDescription,
 } from "@/components/ui/form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { useAuth } from "../context/AuthContext";
+import { Button } from "./ui/button";
+import { Input } from "./ui/input";
 
 const formSchema = z.object({
   username: z
@@ -24,7 +24,6 @@ const formSchema = z.object({
 });
 
 export default function LoginForm() {
-  const mutation = trpc.user.login.useMutation();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -33,17 +32,20 @@ export default function LoginForm() {
     },
   });
 
+  const { user, loginUser, logoutUser } = useAuth();
+
   function onSubmit(values: z.infer<typeof formSchema>) {
-    mutation.mutate(values, {
-      onSuccess: async (token) => {
-        await localStorage.setItem("token", token);
-        const storedToken = await localStorage.getItem("token");
-        console.log("Retrieved token from storage:", storedToken);
-      },
-    });
+    loginUser(values.username);
   }
 
-  return (
+  return user ? (
+    <div className="text-white">
+      <h2>Welcome, {user.username}!</h2>
+      <Button onClick={logoutUser} className="mt-4 mx-auto block">
+        Logout
+      </Button>
+    </div>
+  ) : (
     <Form {...form}>
       <FormField
         control={form.control}
@@ -68,7 +70,7 @@ export default function LoginForm() {
             <FormControl>
               <Input {...field} className="text-white" />
             </FormControl>
-            <FormDescription>This is your public display name.</FormDescription>
+            <FormDescription>This is your password.</FormDescription>
             <FormMessage />
           </FormItem>
         )}
