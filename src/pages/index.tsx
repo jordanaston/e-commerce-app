@@ -1,4 +1,5 @@
 import { trpc } from "@/utils/trpc";
+import { Button } from "@/components/ui/button";
 
 export default function Home() {
   const { data: users, isLoading, error } = trpc.user.getAllUsers.useQuery();
@@ -15,6 +16,7 @@ export default function Home() {
             <p>{user.email}</p>
           </div>
         ))}
+      <Button>Click me</Button>
     </div>
   );
 }
