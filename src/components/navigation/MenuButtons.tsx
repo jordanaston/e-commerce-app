@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
+import LoginForm from "../LoginForm";
 
 export default function MenuButtons() {
   return (
@@ -24,23 +25,8 @@ export default function MenuButtons() {
               Login
             </Button>
           </PopoverTrigger>
-          <PopoverContent className="flex flex-col bg-accent-foreground w-[400px] p-4 mr-12 mt-4">
-            <div className="text-white mb-4">Login</div>
-            <div className="flex flex-col gap-2">
-              <input
-                type="text"
-                placeholder="Username"
-                className="mt-2 p-2 rounded bg-transparent border-2 border-white"
-              />
-              <input
-                type="password"
-                placeholder="Password"
-                className="mt-2 p-2 rounded bg-transparent border-2 border-white"
-              />
-            </div>
-            <Button variant="default" className="mt-4">
-              Login
-            </Button>
+          <PopoverContent className="flex flex-col bg-accent-foreground w-[350px] p-4 mr-12 mt-4">
+            <LoginForm />
           </PopoverContent>
         </Popover>
       </div>
