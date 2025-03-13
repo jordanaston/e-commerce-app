@@ -15,7 +15,7 @@ import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { trpc } from "@/utils/trpc";
 import { toast } from "sonner";
-
+import { useLocalStorage } from "@/hooks/useLocalStorage";
 const formSchema = z.object({
   username: z
     .string()
@@ -28,10 +28,11 @@ const formSchema = z.object({
 
 export default function LoginUserForm() {
   const utils = trpc.useUtils();
+  const [token] = useLocalStorage("token");
 
   const { data: user } = trpc.user.getLoggedInUser.useQuery(undefined, {
     retry: false,
-    enabled: !!localStorage.getItem("token"),
+    enabled: !!token,
   });
 
   const form = useForm<z.infer<typeof formSchema>>({

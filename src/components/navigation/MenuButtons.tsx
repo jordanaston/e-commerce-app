@@ -2,15 +2,16 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import LoginUserForm from "../LoginUserForm";
-
 import CreateUserForm from "../CreateUserForm";
 import { trpc } from "@/utils/trpc";
 import { useRef } from "react";
+import { useLocalStorage } from "@/hooks/useLocalStorage";
 
 export default function MenuButtons() {
+  const [token] = useLocalStorage("token");
   const { data: user } = trpc.user.getLoggedInUser.useQuery(undefined, {
     retry: false,
-    enabled: !!localStorage.getItem("token"),
+    enabled: !!token,
   });
 
   const popoverRef = useRef<HTMLButtonElement>(null);
