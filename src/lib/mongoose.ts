@@ -1,29 +1,43 @@
 import mongoose from "mongoose";
 
-const dbConnect = async () => {
-  if (!process.env.MONGODB_URI) {
-    throw new Error('Invalid/Missing environment variable: "MONGODB_URI"');
+if (!process.env.MONGODB_URI) {
+  throw new Error('Invalid/Missing environment variable: "MONGODB_URI"');
+}
+
+const MONGODB_URI = process.env.MONGODB_URI;
+
+interface MongooseConnection {
+  conn: typeof mongoose | null;
+  promise: Promise<typeof mongoose> | null;
+}
+
+const cached: MongooseConnection = { conn: null, promise: null };
+
+async function dbConnect() {
+  if (cached.conn) {
+    return cached.conn;
   }
 
-  const uri = process.env.MONGODB_URI;
-  try {
-    console.log("Connecting to MongoDB...");
-    await mongoose.connect(uri);
-    console.log("MongoDB connected successfully.");
+  if (!cached.promise) {
+    const opts = {
+      bufferCommands: false,
+    };
 
-    const connection = mongoose.connection;
-    connection.on("connected", () =>
-      console.log("MongoDB connection event: connected")
-    );
-    connection.on("error", (err) =>
-      console.log("MongoDB connection error:", err)
-    );
+    cached.promise = mongoose.connect(MONGODB_URI, opts).then((mongoose) => {
+      return mongoose;
+    });
+  }
+
+  try {
+    cached.conn = await cached.promise;
   } catch (error) {
-    console.log("MongoDB connection failed:", error);
+    cached.promise = null;
     throw error;
   }
-};
 
-dbConnect().catch((err) => console.log("Top level MongoDB error:", err));
+  return cached.conn;
+}
+
+dbConnect().then(() => console.log("MongoDB connection pool established"));
 
 export default dbConnect;
