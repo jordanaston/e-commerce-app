@@ -1,20 +1,15 @@
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
-import LoginUserForm from "../LoginUserForm";
-import CreateUserForm from "../CreateUserForm";
-import { trpc } from "@/utils/trpc";
+import LoginUser from "../LoginUser";
+import CreateUser from "../CreateUser";
 import { useRef } from "react";
-import { useLocalStorage } from "@/hooks/useLocalStorage";
+import { useGetUserInfo } from "@/hooks/getUserInfo";
 
 export default function MenuButtons() {
-  const [token] = useLocalStorage("token");
-  const { data: user } = trpc.user.getLoggedInUser.useQuery(undefined, {
-    retry: false,
-    enabled: !!token,
-  });
+  const { user } = useGetUserInfo();
 
-  const popoverRef = useRef<HTMLButtonElement>(null);
+  const displayPopoverRef = useRef<HTMLButtonElement>(null);
 
   return (
     <>
@@ -32,13 +27,15 @@ export default function MenuButtons() {
         </Link>
 
         <Popover>
-          <PopoverTrigger asChild ref={popoverRef}>
+          <PopoverTrigger asChild ref={displayPopoverRef}>
             <Button variant="default" className="bg-transparent shadow-none">
               Sign Up
             </Button>
           </PopoverTrigger>
           <PopoverContent className="flex flex-col bg-accent-foreground w-[350px] p-4 mr-12 mt-4">
-            <CreateUserForm onSuccess={() => popoverRef.current?.click()} />
+            <CreateUser
+              onSuccess={() => displayPopoverRef.current?.click()}
+            />
           </PopoverContent>
         </Popover>
         <Popover>
@@ -54,7 +51,7 @@ export default function MenuButtons() {
             )}
           </PopoverTrigger>
           <PopoverContent className="flex flex-col bg-accent-foreground w-[350px] p-4 mr-12 mt-4">
-            <LoginUserForm />
+            <LoginUser />
           </PopoverContent>
         </Popover>
       </div>

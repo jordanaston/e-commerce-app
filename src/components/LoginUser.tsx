@@ -10,12 +10,14 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-
+import { useRouter } from "next/navigation";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { trpc } from "@/utils/trpc";
 import { toast } from "sonner";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
+import { useGetUserInfo } from "@/hooks/getUserInfo";
+
 const formSchema = z.object({
   username: z
     .string()
@@ -26,14 +28,11 @@ const formSchema = z.object({
     .min(6, { message: "Password must be at least 6 characters." }),
 });
 
-export default function LoginUserForm() {
+export default function LoginUser() {
+  const router = useRouter();
   const utils = trpc.useUtils();
-  const [token] = useLocalStorage("token");
-
-  const { data: user } = trpc.user.getLoggedInUser.useQuery(undefined, {
-    retry: false,
-    enabled: !!token,
-  });
+  const { user } = useGetUserInfo();
+  const [, setToken] = useLocalStorage("token");
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -45,13 +44,14 @@ export default function LoginUserForm() {
   });
 
   const loginUser = trpc.user.loginUser.useMutation({
-    onSuccess: (data) => {
-      if (typeof window !== "undefined") {
-        localStorage.setItem("token", data.token);
+    onSuccess: async (data) => {
+      setToken(data.token);
+      await utils.user.getLoggedInUser.invalidate();
+      const loggedInUser = await utils.user.getLoggedInUser.fetch();
+      if (loggedInUser) {
+        form.reset();
+        toast.success("Login successful!");
       }
-      form.reset();
-      utils.user.getLoggedInUser.invalidate();
-      toast.success("Login successful!");
     },
     onError: (error) => {
       toast.error(error.message || "Failed to login. Please try again.");
@@ -59,12 +59,11 @@ export default function LoginUserForm() {
     },
   });
 
-  const logoutUser = () => {
-    if (typeof window !== "undefined") {
-      localStorage.removeItem("token");
-    }
-    utils.user.getLoggedInUser.invalidate();
-    utils.user.getLoggedInUser.reset();
+  const logoutUser = async () => {
+    setToken(null);
+    await utils.invalidate();
+    await utils.user.getLoggedInUser.reset();
+    router.push("/");
     toast.success("Logout successful!");
   };
 

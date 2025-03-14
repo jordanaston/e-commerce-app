@@ -31,7 +31,7 @@ const formSchema = z.object({
     ),
 });
 
-export default function CreateUserForm({
+export default function CreateUser({
   onSuccess,
 }: {
   onSuccess: () => void;

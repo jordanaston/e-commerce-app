@@ -70,7 +70,7 @@ export const userRouter = router({
       if (!user) {
         throw new TRPCError({
           code: "UNAUTHORIZED",
-          message: "Invalid credentials",
+          message: "No user found with this username.",
         });
       }
 
