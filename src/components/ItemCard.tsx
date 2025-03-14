@@ -12,13 +12,16 @@ export default function ItemCard({ product }: { product: Product }) {
         className="flex flex-col bg-white w-[250px] h-[350px] shadow-md items-center justify-center"
       >
         <Link href={`/product?id=${product.id}`} className="hover:opacity-65">
-          <Image
-            src={product.image}
-            alt={product.title}
-            width={150}
-            height={100}
-            className="mx-auto"
-          />
+          <div className="relative w-[150px] h-[150px]">
+            <Image
+              src={product.image}
+              alt={product.title}
+              fill
+              sizes="150px"
+              style={{ objectFit: "contain" }}
+              className="mx-auto"
+            />
+          </div>
         </Link>
       </div>
       <div className="flex flex-col justify-between bg-grey-200 w-[250px] h-72 p-4 shadow-lg">

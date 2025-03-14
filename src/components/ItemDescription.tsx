@@ -19,16 +19,19 @@ export default function ItemDescription({ product }: { product: Product }) {
       </Button>
       <div
         key={product.id}
-        className="flex flex-col bg-white w-[250px]  shadow-md items-center justify-center"
+        className="flex flex-col bg-white w-[250px] shadow-md items-center justify-center p-4"
       >
         <Link href={`/product?id=${product.id}`}>
-          <Image
-            src={product.image}
-            alt={product.title}
-            width={150}
-            height={100}
-            className="mx-auto"
-          />
+          <div className="relative w-[200px] h-[200px]">
+            <Image
+              src={product.image}
+              alt={product.title}
+              fill
+              sizes="200px"
+              style={{ objectFit: "contain" }}
+              className="mx-auto"
+            />
+          </div>
         </Link>
       </div>
       <div className="flex flex-col bg-grey-200 w-[550px] p-4 shadow-lg">
