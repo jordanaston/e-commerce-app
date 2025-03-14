@@ -1,16 +1,40 @@
 import { router } from "../trpc";
 import { z } from "zod";
-import { publicProcedure } from "../trpc";
-import axios from "axios";
-import { Cart } from "@/types/cart";
+import { protectedProcedure } from "../trpc";
+import { Cart } from "../models/cart.models";
 
 export const cartRouter = router({
-  getCart: publicProcedure
-    .input(z.object({ userId: z.number() }))
-    .query(async ({ input }) => {
-      const response = await axios.get<Cart>(
-        `https://fakestoreapi.com/carts/user/${input.userId}`
-      );
-      return response.data;
+  addToCart: protectedProcedure
+    .input(
+      z.object({
+        productId: z.number(),
+        quantity: z.number().min(1),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      let cart = await Cart.findOne({ userId: ctx.user.userId });
+
+      if (!cart) {
+        cart = await Cart.create({
+          userId: ctx.user.userId,
+          products: [{ productId: input.productId, quantity: input.quantity }],
+        });
+      } else {
+        const existingProduct = cart.products.find(
+          (p: { productId: number }) => p.productId === input.productId
+        );
+
+        if (existingProduct) {
+          existingProduct.quantity += input.quantity;
+        } else {
+          cart.products.push({
+            productId: input.productId,
+            quantity: input.quantity,
+          });
+        }
+        await cart.save();
+      }
+
+      return cart;
     }),
 });

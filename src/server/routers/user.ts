@@ -1,32 +1,11 @@
-import { router, publicProcedure, protectedProcedure } from "../trpc";
-import axios from "axios";
-import { z } from "zod";
+import { TRPCError } from "@trpc/server";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import { z } from "zod";
 import { User } from "../models/user.models";
-import { TRPCError } from "@trpc/server";
+import { protectedProcedure, publicProcedure, router } from "../trpc";
 
 export const userRouter = router({
-  getAllUsers: publicProcedure.query(async () => {
-    const response = await axios.get<User[]>("https://fakestoreapi.com/users");
-    return response.data;
-  }),
-
-  login: publicProcedure
-    .input(
-      z.object({
-        username: z.string(),
-        password: z.string(),
-      })
-    )
-    .mutation(async ({ input }) => {
-      const response = await axios.post("https://fakestoreapi.com/auth/login", {
-        username: input.username,
-        password: input.password,
-      });
-      return response.data.token;
-    }),
-
   createUser: publicProcedure
     .input(
       z.object({
@@ -83,7 +62,7 @@ export const userRouter = router({
       }
 
       const token = jwt.sign(
-        { userId: user._id, username: user.username },
+        { userId: user._id.toString(), username: user.username },
         process.env.JWT_SECRET!,
         { expiresIn: "24h" }
       );

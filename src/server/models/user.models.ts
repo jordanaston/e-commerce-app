@@ -22,11 +22,10 @@ const userSchema = new mongoose.Schema(
   }
 );
 
-export type User = InferSchemaType<typeof userSchema>;
 
 userSchema.pre("save", async function (next) {
   if (!this.isModified("password")) return next();
-
+  
   try {
     const salt = await bcrypt.genSalt(10);
     this.password = await bcrypt.hash(this.password, salt);
@@ -35,5 +34,7 @@ userSchema.pre("save", async function (next) {
     next(error as Error);
   }
 });
+
+export type User = InferSchemaType<typeof userSchema>;
 
 export const User = mongoose.models.User || mongoose.model("User", userSchema);

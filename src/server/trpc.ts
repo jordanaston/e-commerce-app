@@ -1,10 +1,14 @@
 import { initTRPC, TRPCError } from "@trpc/server";
 import { type CreateNextContextOptions } from "@trpc/server/adapters/next";
 import jwt from "jsonwebtoken";
-import { User } from "./models/user.models";
+
+type JWTPayload = {
+  userId: string;
+  username: string;
+};
 
 interface Context {
-  user?: User;
+  user?: JWTPayload;
 }
 
 export const createContext = async ({ req }: CreateNextContextOptions) => {
@@ -16,7 +20,7 @@ export const createContext = async ({ req }: CreateNextContextOptions) => {
 
   try {
     const token = authHeader.split(" ")[1];
-    const decoded = jwt.verify(token, process.env.JWT_SECRET!) as User;
+    const decoded = jwt.verify(token, process.env.JWT_SECRET!) as JWTPayload;
     return { user: decoded };
   } catch {
     return { user: undefined };
