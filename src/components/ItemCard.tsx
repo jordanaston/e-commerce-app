@@ -3,8 +3,33 @@ import { Product } from "@/types/product";
 import { FaStar } from "react-icons/fa";
 import { Button } from "./ui/button";
 import Link from "next/link";
+import { trpc } from "@/utils/trpc";
+import { toast } from "sonner";
+import { useGetUserInfo } from "@/hooks/getUserInfo";
 
 export default function ItemCard({ product }: { product: Product }) {
+  const { user } = useGetUserInfo();
+  const addToCart = trpc.cart.addToCart.useMutation({
+    onSuccess: () => {
+      toast.success("Item added to cart!");
+    },
+    onError: (error) => {
+      toast.error(error.message || "Failed to add item to cart");
+    },
+  });
+
+  const handleAddToCart = () => {
+    if (!user) {
+      toast.error("Please login to add items to cart");
+      return;
+    }
+
+    addToCart.mutate({
+      productId: product.id,
+      quantity: 1,
+    });
+  };
+
   return (
     <div className="flex flex-col flex-wrap justify-center">
       <div
@@ -37,8 +62,12 @@ export default function ItemCard({ product }: { product: Product }) {
             )}
           </div>
         </div>
-        <Button className="flex justify-center items-center p-4">
-          Add to Cart
+        <Button
+          onClick={handleAddToCart}
+          disabled={addToCart.isPending}
+          className="flex justify-center items-center p-4"
+        >
+          {addToCart.isPending ? "Adding to Cart..." : "Add to Cart"}
         </Button>
       </div>
     </div>
