@@ -17,6 +17,7 @@ import { trpc } from "@/utils/trpc";
 import { toast } from "sonner";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
 import { useGetUserInfo } from "@/hooks/getUserInfo";
+import { useState } from "react";
 
 const formSchema = z.object({
   username: z
@@ -30,6 +31,7 @@ const formSchema = z.object({
 
 export default function LoginUser() {
   const router = useRouter();
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
   const utils = trpc.useUtils();
   const { user } = useGetUserInfo();
   const [, setToken] = useLocalStorage("token");
@@ -60,11 +62,13 @@ export default function LoginUser() {
   });
 
   const logoutUser = async () => {
+    setIsLoggingOut(true);
     setToken(null);
     await utils.invalidate();
     await utils.user.getLoggedInUser.reset();
     router.push("/");
     toast.success("Logout successful!");
+    setIsLoggingOut(false);
   };
 
   function onSubmit(values: z.infer<typeof formSchema>) {
@@ -94,8 +98,12 @@ export default function LoginUser() {
         Please feel free to look around and test the app. You can do the
         following...
       </p>
-      <Button onClick={logoutUser} className="mt-4 mx-auto block">
-        Logout
+      <Button
+        onClick={logoutUser}
+        className="mt-4 mx-auto block"
+        disabled={isLoggingOut}
+      >
+        {isLoggingOut ? "Logging out..." : "Logout"}
       </Button>
     </div>
   ) : (
@@ -131,7 +139,7 @@ export default function LoginUser() {
       <Button
         type="submit"
         onClick={form.handleSubmit(onSubmit)}
-        className="mt-4"
+        className="mt-4 hover:text-grey-500"
         disabled={loginUser.isPending || !form.formState.isValid}
       >
         {loginUser.isPending ? "Logging in..." : "Login"}

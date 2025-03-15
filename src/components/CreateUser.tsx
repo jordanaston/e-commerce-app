@@ -100,7 +100,7 @@ export default function CreateUser({
       <Button
         type="submit"
         onClick={form.handleSubmit(onSubmit)}
-        className="mt-4"
+        className="mt-4 hover:text-grey-500"
         disabled={createUser.isPending || !form.formState.isValid}
       >
         {createUser.isPending ? "Creating..." : "Create User"}
