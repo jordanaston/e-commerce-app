@@ -100,7 +100,7 @@ export default function LoginUser() {
       </p>
       <Button
         onClick={logoutUser}
-        className="mt-4 mx-auto block"
+        className="mt-4 mx-auto block hover:text-grey-500"
         disabled={isLoggingOut}
       >
         {isLoggingOut ? "Logging out..." : "Logout"}
