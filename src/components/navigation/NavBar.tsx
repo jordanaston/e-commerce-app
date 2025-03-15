@@ -13,7 +13,7 @@ export default function NavBar() {
         <Image
           src="/business-name.svg"
           alt="Business Name"
-          className="mr-8 cursor-pointer w-[120px] h-auto"
+          className="mr-8 cursor-pointer w-[120px] h-auto transition-colors hover:opacity-60"
           width={120}
           height={120}
           priority
