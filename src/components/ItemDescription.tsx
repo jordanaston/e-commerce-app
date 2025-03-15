@@ -9,7 +9,7 @@ import { trpc } from "@/utils/trpc";
 import { toast } from "sonner";
 import { useGetUserInfo } from "@/hooks/getUserInfo";
 
-export default function ItemDescription({ product }: { product: Product }) {
+const ItemDescription = ({ product }: { product: Product }) => {
   const router = useRouter();
   const { user } = useGetUserInfo();
   const addToCart = trpc.cart.addToCart.useMutation({
@@ -90,4 +90,6 @@ export default function ItemDescription({ product }: { product: Product }) {
       </div>
     </div>
   );
-}
+};
+
+export default ItemDescription;
