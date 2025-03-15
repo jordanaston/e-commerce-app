@@ -16,7 +16,6 @@ export const productRouter = router({
         : null,
     };
   }),
-
   getProductById: publicProcedure
     .input(z.object({ id: z.number() }))
     .query(async ({ input }) => {
@@ -24,5 +23,17 @@ export const productRouter = router({
         `https://fakestoreapi.com/products/${input.id}`
       );
       return response.data;
+    }),
+  getProductsByIds: publicProcedure
+    .input(z.object({ ids: z.array(z.number()) }))
+    .query(async ({ input }) => {
+      const products = await Promise.all(
+        input.ids.map((id) =>
+          fetch(`https://fakestoreapi.com/products/${id}`).then((res) =>
+            res.json()
+          )
+        )
+      );
+      return products;
     }),
 });

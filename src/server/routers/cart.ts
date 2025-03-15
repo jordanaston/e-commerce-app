@@ -37,4 +37,8 @@ export const cartRouter = router({
 
       return cart;
     }),
+  getCart: protectedProcedure.query(async ({ ctx }) => {
+    const cart = await Cart.findOne({ userId: ctx.user.userId });
+    return cart;
+  }),
 });
