@@ -70,7 +70,7 @@ export default function ItemDescription({ product }: { product: Product }) {
           )}
           <p className="text-sm pl-2">({product.rating.count})</p>
         </div>
-        <Divider style={{ backgroundColor: "black", opacity: 0.2 }} />
+        <Divider className="bg-black opacity-20" />
         <p className="text-sm">
           {product.description.charAt(0).toUpperCase() +
             product.description.slice(1)}

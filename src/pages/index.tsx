@@ -3,7 +3,7 @@ import Layout from "@/components/Layout";
 import ItemCard from "@/components/ItemCard";
 import { Button } from "@/components/ui/button";
 
-export default function Home() {
+const Home = () => {
   const {
     data: products,
     isLoading,
@@ -37,4 +37,6 @@ export default function Home() {
       </div>
     </Layout>
   );
-}
+};
+
+export default Home;

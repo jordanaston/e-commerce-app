@@ -1,6 +1,6 @@
 import { FaSearch } from "react-icons/fa";
 
-export default function SearchBar() {
+const SearchBar = () => {
   return (
     <div className="w-full flex items-center relative">
       <input
@@ -13,4 +13,6 @@ export default function SearchBar() {
       </div>
     </div>
   );
-}
+};
+
+export default SearchBar;

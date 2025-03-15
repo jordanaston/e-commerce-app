@@ -6,7 +6,7 @@ import CreateUser from "../CreateUser";
 import { useRef } from "react";
 import { useGetUserInfo } from "@/hooks/getUserInfo";
 
-export default function MenuButtons() {
+const MenuButtons = () => {
   const { user } = useGetUserInfo();
 
   const displayPopoverRef = useRef<HTMLButtonElement>(null);
@@ -80,4 +80,6 @@ export default function MenuButtons() {
       </div>
     </>
   );
-}
+};
+
+export default MenuButtons;

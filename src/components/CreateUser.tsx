@@ -31,11 +31,7 @@ const formSchema = z.object({
     ),
 });
 
-export default function CreateUser({
-  closePopover,
-}: {
-  closePopover: () => void;
-}) {
+const CreateUser = ({ closePopover }: { closePopover: () => void }) => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -107,4 +103,6 @@ export default function CreateUser({
       </Button>
     </Form>
   );
-}
+};
+
+export default CreateUser;

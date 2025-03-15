@@ -3,7 +3,7 @@ import Layout from "@/components/Layout";
 import { trpc } from "@/utils/trpc";
 import { useRouter } from "next/router";
 
-export default function Product() {
+const Product = () => {
   const router = useRouter();
   const { id } = router.query;
   const {
@@ -26,4 +26,6 @@ export default function Product() {
       </div>
     </Layout>
   );
-}
+};
+
+export default Product;

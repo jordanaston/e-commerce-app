@@ -1,6 +1,6 @@
 import { FaMapMarkerAlt } from "react-icons/fa";
 
-export default function DeliveryLocation() {
+const DeliveryLocation = () => {
   return (
     <div className="flex items-end mr-8 cursor-pointer">
       <FaMapMarkerAlt color="white" className="mr-1 mb-1.5" />
@@ -14,4 +14,6 @@ export default function DeliveryLocation() {
       </div>
     </div>
   );
-}
+};
+
+export default DeliveryLocation;

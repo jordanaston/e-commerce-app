@@ -7,11 +7,7 @@ import { IoClose } from "react-icons/io5";
 import { toast } from "sonner";
 import { Button } from "./ui/button";
 
-export default function UserDetails({
-  closePopover,
-}: {
-  closePopover: () => void;
-}) {
+const UserDetails = ({ closePopover }: { closePopover: () => void }) => {
   const router = useRouter();
   const [isLoggingOut, setIsLoggingOut] = useState(false);
   const utils = trpc.useUtils();
@@ -62,4 +58,6 @@ export default function UserDetails({
       </Button>
     </div>
   );
-}
+};
+
+export default UserDetails;

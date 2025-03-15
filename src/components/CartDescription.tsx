@@ -16,13 +16,13 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-export default function CartDescription({
+const CartDescription = ({
   product,
   cart,
 }: {
   product: Product;
   cart: Cart;
-}) {
+}) => {
   const [removeQuantity, setRemoveQuantity] = useState("");
   const [isAnimating, setIsAnimating] = useState(false);
 
@@ -86,7 +86,7 @@ export default function CartDescription({
         </div>
         <p className="text-sm font-medium capitalize">{product.category}</p>
 
-        <Divider style={{ backgroundColor: "black", opacity: 0.2 }} />
+        <Divider className="bg-black opacity-20" />
         <p className="text-sm">
           {product.description.charAt(0).toUpperCase() +
             product.description.slice(1)}
@@ -133,4 +133,6 @@ export default function CartDescription({
       </div>
     </div>
   );
-}
+};
+
+export default CartDescription;

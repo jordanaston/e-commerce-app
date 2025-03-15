@@ -1,13 +1,13 @@
 import { Cart } from "@/server/models/cart.models";
 import { Product } from "@/types/product";
 
-export default function QuantityIndicator({
+const QuantityIndicator = ({
   product,
   cart,
 }: {
   product: Product;
   cart: Cart;
-}) {
+}) => {
   const quantity =
     cart.products.find((p) => p.productId === product.id)?.quantity ?? 0;
 
@@ -16,4 +16,6 @@ export default function QuantityIndicator({
       {quantity}
     </div>
   );
-}
+};
+
+export default QuantityIndicator;

@@ -4,7 +4,7 @@ import MenuButtons from "./MenuButtons";
 import SearchBar from "./SearchBar";
 import { useRouter } from "next/router";
 
-export default function NavBar() {
+const NavBar = () => {
   const router = useRouter();
 
   return (
@@ -27,4 +27,6 @@ export default function NavBar() {
       </div>
     </>
   );
-}
+};
+
+export default NavBar;

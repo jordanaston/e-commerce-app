@@ -7,7 +7,7 @@ import { trpc } from "@/utils/trpc";
 import { toast } from "sonner";
 import { useGetUserInfo } from "@/hooks/getUserInfo";
 
-export default function ItemCard({ product }: { product: Product }) {
+const ItemCard = ({ product }: { product: Product }) => {
   const { user } = useGetUserInfo();
   const addToCart = trpc.cart.addToCart.useMutation({
     onSuccess: () => {
@@ -72,4 +72,6 @@ export default function ItemCard({ product }: { product: Product }) {
       </div>
     </div>
   );
-}
+};
+
+export default ItemCard;

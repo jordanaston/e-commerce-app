@@ -28,11 +28,7 @@ const formSchema = z.object({
     .min(6, { message: "Password must be at least 6 characters." }),
 });
 
-export default function LoginUser({
-  closePopover,
-}: {
-  closePopover: () => void;
-}) {
+const LoginUser = ({ closePopover }: { closePopover: () => void }) => {
   const utils = trpc.useUtils();
   const { user } = useGetUserInfo();
   const [, setToken] = useLocalStorage("token");
@@ -110,4 +106,6 @@ export default function LoginUser({
       </Button>
     </Form>
   );
-}
+};
+
+export default LoginUser;
