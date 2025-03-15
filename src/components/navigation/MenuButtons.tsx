@@ -48,13 +48,13 @@ export default function MenuButtons() {
             </PopoverTrigger>
             <PopoverContent className="flex flex-col bg-accent-foreground w-[350px] p-4 mr-12 mt-4">
               <CreateUser
-                onSuccess={() => displayPopoverRef.current?.click()}
+                closePopover={() => displayPopoverRef.current?.click()}
               />
             </PopoverContent>
           </Popover>
         )}
         <Popover>
-          <PopoverTrigger asChild>
+          <PopoverTrigger asChild ref={displayPopoverRef}>
             {user ? (
               <Button
                 variant="default"
@@ -72,7 +72,9 @@ export default function MenuButtons() {
             )}
           </PopoverTrigger>
           <PopoverContent className="flex flex-col bg-accent-foreground w-[350px] p-4 mr-12 mt-4">
-            <LoginUser />
+            <LoginUser
+              closePopover={() => displayPopoverRef.current?.click()}
+            />
           </PopoverContent>
         </Popover>
       </div>

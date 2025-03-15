@@ -32,9 +32,9 @@ const formSchema = z.object({
 });
 
 export default function CreateUser({
-  onSuccess,
+  closePopover,
 }: {
-  onSuccess: () => void;
+  closePopover: () => void;
 }) {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -49,7 +49,7 @@ export default function CreateUser({
     onSuccess: () => {
       form.reset();
       toast.success("User created successfully. Please login!");
-      onSuccess();
+      closePopover();
     },
     onError: (error) => {
       toast.error(error.message || "Failed to create user");

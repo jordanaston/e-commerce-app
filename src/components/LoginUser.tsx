@@ -7,17 +7,16 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { useGetUserInfo } from "@/hooks/getUserInfo";
+import { useLocalStorage } from "@/hooks/useLocalStorage";
+import { trpc } from "@/utils/trpc";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import { z } from "zod";
-import { useRouter } from "next/navigation";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
-import { trpc } from "@/utils/trpc";
-import { toast } from "sonner";
-import { useLocalStorage } from "@/hooks/useLocalStorage";
-import { useGetUserInfo } from "@/hooks/getUserInfo";
-import { useState } from "react";
+import UserDetails from "./UserDetails";
 
 const formSchema = z.object({
   username: z
@@ -29,9 +28,11 @@ const formSchema = z.object({
     .min(6, { message: "Password must be at least 6 characters." }),
 });
 
-export default function LoginUser() {
-  const router = useRouter();
-  const [isLoggingOut, setIsLoggingOut] = useState(false);
+export default function LoginUser({
+  closePopover,
+}: {
+  closePopover: () => void;
+}) {
   const utils = trpc.useUtils();
   const { user } = useGetUserInfo();
   const [, setToken] = useLocalStorage("token");
@@ -61,15 +62,6 @@ export default function LoginUser() {
     },
   });
 
-  const logoutUser = async () => {
-    setIsLoggingOut(true);
-    setToken(null);
-    await utils.user.getLoggedInUser.reset();
-    router.push("/");
-    toast.success("Logout successful!");
-    setIsLoggingOut(false);
-  };
-
   function onSubmit(values: z.infer<typeof formSchema>) {
     loginUser.mutate({
       username: values.username,
@@ -77,34 +69,7 @@ export default function LoginUser() {
     });
   }
   return user ? (
-    <div className="text-white">
-      <h2>Welcome, {user.username}!</h2>
-      <p className="text-white/70 text-sm mt-2">
-        This is a simple e-commerce-app designed to represent a real-world
-        application. It&apos;s purpose is to showcase the following
-        technologies:
-      </p>
-      <ul className="text-white/70 list-disc list-inside my-2">
-        <li>Next.js</li>
-        <li>TypeScript</li>
-        <li>Trpc</li>
-        <li>MongoDB</li>
-        <li>Tailwind CSS</li>
-        <li>Shadcn UI</li>
-        <li>Zod</li>
-      </ul>
-      <p className="text-white/70 text-sm mt-2">
-        Please feel free to look around and test the app. You can do the
-        following...
-      </p>
-      <Button
-        onClick={logoutUser}
-        className="mt-4 mx-auto block hover:text-grey-500"
-        disabled={isLoggingOut}
-      >
-        {isLoggingOut ? "Logging out..." : "Logout"}
-      </Button>
-    </div>
+    <UserDetails closePopover={closePopover} />
   ) : (
     <Form {...form}>
       <FormField
