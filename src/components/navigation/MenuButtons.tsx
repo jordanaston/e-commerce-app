@@ -5,6 +5,8 @@ import LoginUser from "../auth/LoginUser";
 import { useRef } from "react";
 import { useGetUserInfo } from "@/hooks/getUserInfo";
 import CreateUser from "../auth/CreateUser";
+import { IoCartOutline } from "react-icons/io5";
+import TotalQuantityIndicator from "../TotalQuantityIndicator";
 
 const MenuButtons = () => {
   const { user } = useGetUserInfo();
@@ -14,25 +16,14 @@ const MenuButtons = () => {
     <>
       <div className="flex items-center space-x-4 pl-8">
         {user && (
-          <>
-            <Link href="/" passHref>
-              <Button
-                variant="default"
-                className="bg-transparent shadow-none hover:text-grey-500"
-              >
-                Store
-              </Button>
-            </Link>
-
-            <Link href="/orders" passHref>
-              <Button
-                variant="default"
-                className="bg-transparent shadow-none hover:text-grey-500"
-              >
-                Orders
-              </Button>
-            </Link>
-          </>
+          <Link href="/" passHref>
+            <Button
+              variant="default"
+              className="bg-transparent shadow-none hover:text-grey-500"
+            >
+              Store
+            </Button>
+          </Link>
         )}
 
         {!user && (
@@ -76,6 +67,16 @@ const MenuButtons = () => {
             />
           </PopoverContent>
         </Popover>
+        {user && (
+          <Link href="/orders" passHref>
+            <div className="relative inline-flex">
+              <IoCartOutline className="text-2xl text-white hover:text-grey-500 transition-colors" />
+              <div className="absolute -top-1 -right-1">
+                <TotalQuantityIndicator />
+              </div>
+            </div>
+          </Link>
+        )}
       </div>
     </>
   );

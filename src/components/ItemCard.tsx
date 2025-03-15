@@ -9,9 +9,11 @@ import { useGetUserInfo } from "@/hooks/getUserInfo";
 
 const ItemCard = ({ product }: { product: Product }) => {
   const { user } = useGetUserInfo();
+  const utils = trpc.useUtils();
   const addToCart = trpc.cart.addToCart.useMutation({
     onSuccess: () => {
       toast.success("Item added to cart!");
+      utils.cart.invalidate();
     },
     onError: (error) => {
       toast.error(error.message || "Failed to add item to cart");
