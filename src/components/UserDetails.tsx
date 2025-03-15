@@ -27,7 +27,7 @@ const UserDetails = ({ closePopover }: { closePopover: () => void }) => {
     <div className="text-white">
       <div className="flex justify-between items-center">
         <h2>Welcome, {user?.username}!</h2>
-        <Button variant={"ghost"} onClick={() => closePopover()}>
+        <Button onClick={() => closePopover()} className="hover:text-grey-500">
           <IoClose />
         </Button>
       </div>

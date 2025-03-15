@@ -99,10 +99,10 @@ const CartDescription = ({
           <div className="flex items-center gap-2">
             <Select value={removeQuantity} onValueChange={setRemoveQuantity}>
               <SelectTrigger className="w-[180px]">
-                <SelectValue placeholder="Quantity to Remove" />
+                <SelectValue placeholder="Quantity to remove" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="default">Quantity to Remove</SelectItem>
+                <SelectItem value="default">Quantity to remove</SelectItem>
                 {Array.from({ length: quantity }, (_, i) => i + 1).map(
                   (num) => (
                     <SelectItem key={num} value={num.toString()}>
@@ -126,7 +126,7 @@ const CartDescription = ({
                 removeQuantity === "default"
               }
             >
-              {removeFromCart.isPending ? "Removing..." : "Remove from Cart"}
+              {removeFromCart.isPending ? "Removing..." : "Remove from cart"}
             </Button>
           </div>
         </div>

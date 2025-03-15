@@ -2,9 +2,10 @@ import { Button } from "@/components/ui/button";
 import { useGetUserInfo } from "@/hooks/getUserInfo";
 import { trpc } from "@/utils/trpc";
 import { Divider } from "antd";
-
+import { toast } from "sonner";
 const Summary = () => {
   const { user } = useGetUserInfo();
+  const utils = trpc.useUtils();
   const { data: cart } = trpc.cart.getCart.useQuery(undefined, {
     enabled: !!user,
   });
@@ -36,6 +37,16 @@ const Summary = () => {
   const tax = subtotal * 0.1;
   const grandTotal = subtotal + shipping + tax;
 
+  const clearCart = trpc.cart.clearCart.useMutation({
+    onSuccess: () => {
+      utils.cart.getCart.invalidate();
+      toast.success("Your order has been placed!");
+    },
+    onError: (error) => {
+      toast.error(error.message || "Failed to place order");
+    },
+  });
+
   return (
     <>
       <div className="flex items-center gap-2">
@@ -62,7 +73,9 @@ const Summary = () => {
           </div>
         </div>
 
-        <Button className="w-[25%]">Place order</Button>
+        <Button className="w-[25%]" onClick={() => clearCart.mutate()}>
+          {clearCart.isPending ? "Placing order..." : "Place order"}
+        </Button>
       </div>
     </>
   );

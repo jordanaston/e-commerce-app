@@ -67,7 +67,7 @@ const ItemCard = ({ product }: { product: Product }) => {
           disabled={addToCart.isPending}
           className="flex justify-center items-center p-4"
         >
-          {addToCart.isPending ? "Adding to Cart..." : "Add to Cart"}
+          {addToCart.isPending ? "Adding to cart..." : "Add to cart"}
         </Button>
       </div>
     </div>

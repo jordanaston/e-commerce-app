@@ -4,6 +4,10 @@ import { protectedProcedure } from "../trpc";
 import { Cart } from "../models/cart.models";
 
 export const cartRouter = router({
+  getCart: protectedProcedure.query(async ({ ctx }) => {
+    const cart = await Cart.findOne({ userId: ctx.user.userId });
+    return cart;
+  }),
   addToCart: protectedProcedure
     .input(
       z.object({
@@ -37,10 +41,6 @@ export const cartRouter = router({
 
       return cart;
     }),
-  getCart: protectedProcedure.query(async ({ ctx }) => {
-    const cart = await Cart.findOne({ userId: ctx.user.userId });
-    return cart;
-  }),
   removeFromCart: protectedProcedure
     .input(
       z.object({
@@ -65,4 +65,7 @@ export const cartRouter = router({
       await cart.save();
       return cart;
     }),
+  clearCart: protectedProcedure.mutation(async ({ ctx }) => {
+    await Cart.findOneAndDelete({ userId: ctx.user.userId });
+  }),
 });
