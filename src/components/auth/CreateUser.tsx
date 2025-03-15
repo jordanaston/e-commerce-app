@@ -7,32 +7,31 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { useGetUserInfo } from "@/hooks/getUserInfo";
-import { useLocalStorage } from "@/hooks/useLocalStorage";
-import { trpc } from "@/utils/trpc";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { toast } from "sonner";
 import { z } from "zod";
-import { Button } from "./ui/button";
-import { Input } from "./ui/input";
-import UserDetails from "./UserDetails";
+import { toast } from "sonner";
+
+import { trpc } from "@/utils/trpc";
+import { Input } from "../ui/input";
+import { Button } from "../ui/button";
 
 const formSchema = z.object({
   username: z
     .string()
-    .min(2, { message: "Username must be at least 2 characters." })
+    .min(3, { message: "Username must be at least 3 characters." })
+    .max(20, { message: "Username must be less than 20 characters." })
     .regex(/^\S*$/, { message: "Username cannot contain spaces" }),
   password: z
     .string()
-    .min(6, { message: "Password must be at least 6 characters." }),
+    .min(8, { message: "Password must be at least 8 characters." })
+    .regex(
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+      "Password must contain at least one uppercase letter, one lowercase letter, one number and one special character"
+    ),
 });
 
-const LoginUser = ({ closePopover }: { closePopover: () => void }) => {
-  const utils = trpc.useUtils();
-  const { user } = useGetUserInfo();
-  const [, setToken] = useLocalStorage("token");
-
+const CreateUser = ({ closePopover }: { closePopover: () => void }) => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -42,31 +41,29 @@ const LoginUser = ({ closePopover }: { closePopover: () => void }) => {
     mode: "onBlur",
   });
 
-  const loginUser = trpc.user.loginUser.useMutation({
-    onSuccess: async (data) => {
-      setToken(data.token);
-      await utils.user.getLoggedInUser.invalidate();
-      const loggedInUser = await utils.user.getLoggedInUser.fetch();
-      if (loggedInUser) {
-        form.reset();
-        toast.success("Login successful!");
-      }
+  const createUser = trpc.user.createUser.useMutation({
+    onSuccess: () => {
+      form.reset();
+      toast.success("User created successfully. Please login!");
+      closePopover();
     },
     onError: (error) => {
-      toast.error(error.message || "Failed to login. Please try again.");
-      form.reset();
+      toast.error(error.message || "Failed to create user");
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    loginUser.mutate({
-      username: values.username,
-      password: values.password,
-    });
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    try {
+      await createUser.mutate({
+        username: values.username,
+        password: values.password,
+      });
+    } catch (error) {
+      console.error("Error in form submission:", error);
+    }
   }
-  return user ? (
-    <UserDetails closePopover={closePopover} />
-  ) : (
+
+  return (
     <Form {...form}>
       <FormField
         control={form.control}
@@ -100,12 +97,12 @@ const LoginUser = ({ closePopover }: { closePopover: () => void }) => {
         type="submit"
         onClick={form.handleSubmit(onSubmit)}
         className="mt-4 hover:text-grey-500"
-        disabled={loginUser.isPending || !form.formState.isValid}
+        disabled={createUser.isPending || !form.formState.isValid}
       >
-        {loginUser.isPending ? "Logging in..." : "Login"}
+        {createUser.isPending ? "Creating..." : "Create User"}
       </Button>
     </Form>
   );
 };
 
-export default LoginUser;
+export default CreateUser;

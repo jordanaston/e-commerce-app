@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { IoClose } from "react-icons/io5";
 import { toast } from "sonner";
-import { Button } from "./ui/button";
+import { Button } from "../ui/button";
 
 const UserDetails = ({ closePopover }: { closePopover: () => void }) => {
   const router = useRouter();

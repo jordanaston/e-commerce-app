@@ -1,14 +1,13 @@
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
-import LoginUser from "../LoginUser";
-import CreateUser from "../CreateUser";
+import LoginUser from "../auth/LoginUser";
 import { useRef } from "react";
 import { useGetUserInfo } from "@/hooks/getUserInfo";
+import CreateUser from "../auth/CreateUser";
 
 const MenuButtons = () => {
   const { user } = useGetUserInfo();
-
   const displayPopoverRef = useRef<HTMLButtonElement>(null);
 
   return (
