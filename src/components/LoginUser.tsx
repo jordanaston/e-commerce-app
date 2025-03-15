@@ -64,7 +64,6 @@ export default function LoginUser() {
   const logoutUser = async () => {
     setIsLoggingOut(true);
     setToken(null);
-    await utils.invalidate();
     await utils.user.getLoggedInUser.reset();
     router.push("/");
     toast.success("Logout successful!");
