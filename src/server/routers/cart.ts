@@ -41,4 +41,28 @@ export const cartRouter = router({
     const cart = await Cart.findOne({ userId: ctx.user.userId });
     return cart;
   }),
+  removeFromCart: protectedProcedure
+    .input(
+      z.object({
+        productId: z.number(),
+        quantity: z.number().min(1),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      const cart = await Cart.findOne({ userId: ctx.user.userId });
+      const product = cart.products.find(
+        (p: { productId: number }) => p.productId === input.productId
+      );
+
+      if (product.quantity <= input.quantity) {
+        cart.products = cart.products.filter(
+          (p: { productId: number }) => p.productId !== input.productId
+        );
+      } else {
+        product.quantity -= input.quantity;
+      }
+
+      await cart.save();
+      return cart;
+    }),
 });

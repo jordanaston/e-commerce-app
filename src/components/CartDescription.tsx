@@ -5,6 +5,16 @@ import Link from "next/link";
 import { Divider } from "antd";
 import { Cart } from "@/server/models/cart.models";
 import QuantityIndicator from "./QuantityIndicator";
+import { trpc } from "@/utils/trpc";
+import { toast } from "sonner";
+import { useState, useEffect } from "react";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 export default function CartDescription({
   product,
@@ -13,6 +23,38 @@ export default function CartDescription({
   product: Product;
   cart: Cart;
 }) {
+  const [removeQuantity, setRemoveQuantity] = useState("");
+  const [isAnimating, setIsAnimating] = useState(false);
+
+  const utils = trpc.useUtils();
+  const quantity =
+    cart.products.find((p) => p.productId === product.id)?.quantity ?? 0;
+
+  const removeFromCart = trpc.cart.removeFromCart.useMutation({
+    onSuccess: () => {
+      utils.cart.getCart.invalidate();
+      toast.success(
+        `Removed ${removeQuantity} ${
+          Number(removeQuantity) === 1 ? "item" : "items"
+        } from cart`
+      );
+      setRemoveQuantity("");
+    },
+    onError: (error) => {
+      toast.error(
+        error.message || "Failed to remove from cart. Please try again."
+      );
+    },
+  });
+
+  useEffect(() => {
+    if (removeFromCart.isSuccess) {
+      setIsAnimating(true);
+      const timer = setTimeout(() => setIsAnimating(false), 1000);
+      return () => clearTimeout(timer);
+    }
+  }, [removeFromCart.isSuccess]);
+
   return (
     <div className="flex">
       <div
@@ -33,7 +75,13 @@ export default function CartDescription({
         <div className="flex justify-between items-center">
           <p className="text-xl font-medium">{product.title}</p>
           <div className="flex items-center gap-2">
-            <QuantityIndicator product={product} cart={cart} />
+            <div
+              className={`transition-all duration-300 ease-in-out ${
+                isAnimating ? "scale-125" : "scale-100"
+              }`}
+            >
+              <QuantityIndicator product={product} cart={cart} />
+            </div>
           </div>
         </div>
         <p className="text-sm font-medium capitalize">{product.category}</p>
@@ -47,9 +95,41 @@ export default function CartDescription({
           <p className="text-2xl font-bold">${product.price}</p>
         </div>
         <div className="flex-grow" />
-        <Button className="flex justify-center items-center p-4">
-          Remove from Cart
-        </Button>
+        <div className="flex flex-col gap-2 items-end">
+          <div className="flex items-center gap-2">
+            <Select value={removeQuantity} onValueChange={setRemoveQuantity}>
+              <SelectTrigger className="w-[180px]">
+                <SelectValue placeholder="Quantity to Remove" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="default">Quantity to Remove</SelectItem>
+                {Array.from({ length: quantity }, (_, i) => i + 1).map(
+                  (num) => (
+                    <SelectItem key={num} value={num.toString()}>
+                      {num} {num === 1 ? "Item" : "Items"}
+                    </SelectItem>
+                  )
+                )}
+              </SelectContent>
+            </Select>
+            <Button
+              className="flex justify-center items-center p-4"
+              onClick={() =>
+                removeFromCart.mutate({
+                  productId: product.id,
+                  quantity: Number(removeQuantity),
+                })
+              }
+              disabled={
+                removeFromCart.isPending ||
+                !removeQuantity ||
+                removeQuantity === "default"
+              }
+            >
+              {removeFromCart.isPending ? "Removing..." : "Remove from Cart"}
+            </Button>
+          </div>
+        </div>
       </div>
     </div>
   );
