@@ -74,7 +74,11 @@ const Summary = () => {
           </div>
         </div>
 
-        <Button className="w-[25%]" onClick={() => clearCart.mutate()}>
+        <Button
+          className="w-[25%]"
+          onClick={() => clearCart.mutate()}
+          disabled={!cart?.products.length || clearCart.isPending}
+        >
           {clearCart.isPending ? "Placing order..." : "Place order"}
         </Button>
       </div>
