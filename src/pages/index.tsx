@@ -2,6 +2,7 @@ import { trpc } from "@/utils/trpc";
 import Layout from "@/components/Layout";
 import ItemCard from "@/components/ItemCard";
 import { Button } from "@/components/ui/button";
+import { Loader2 } from "lucide-react";
 
 const Home = () => {
   const {
@@ -15,8 +16,25 @@ const Home = () => {
     getNextPageParam: (lastPage) => lastPage.nextCursor,
   });
 
-  if (isLoading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error.message}</div>;
+  if (isLoading)
+    return (
+      <Layout>
+        <div className="container mx-auto px-4 flex flex-col items-center justify-center min-h-[50vh]">
+          <Loader2 className="w-8 h-8 animate-spin text-foreground" />
+        </div>
+      </Layout>
+    );
+
+  if (error)
+    return (
+      <Layout>
+        <div className="container mx-auto px-4 flex flex-col items-center justify-center min-h-[50vh]">
+          <p className="text-muted-foreground">
+            Error loading products. Please reload the page.
+          </p>
+        </div>
+      </Layout>
+    );
   return (
     <Layout>
       <div className="container mx-auto sm:px-4 pt-8 pb-16 transition-all duration-500 ease-out will-change-auto">

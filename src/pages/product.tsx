@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { trpc } from "@/utils/trpc";
 import { useRouter } from "next/router";
 import { IoIosArrowBack } from "react-icons/io";
+import { Loader2 } from "lucide-react";
 
 const Product = () => {
   const router = useRouter();
@@ -19,8 +20,26 @@ const Product = () => {
     }
   );
 
-  if (isLoading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error.message}</div>;
+  if (isLoading)
+    return (
+      <Layout>
+        <div className="container mx-auto px-4 flex flex-col items-center justify-center min-h-[50vh]">
+          <Loader2 className="w-8 h-8 animate-spin text-foreground" />
+        </div>
+      </Layout>
+    );
+
+  if (error)
+    return (
+      <Layout>
+        <div className="container mx-auto px-4 flex flex-col items-center justify-center min-h-[50vh]">
+          <p className="text-muted-foreground">
+            Error loading item. Please reload the page.
+          </p>
+        </div>
+      </Layout>
+    );
+
   return (
     <Layout>
       <div className="min-h-screen p-8 pb-16">
