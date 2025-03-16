@@ -57,7 +57,7 @@ const Orders = () => {
       <Layout>
         <div className="container mx-auto px-4 flex flex-col items-center justify-center min-h-[50vh]">
           <p className="text-muted-foreground">
-            Error loading products. Please reload the page.
+            Error loading cart. Please reload the page.
           </p>
         </div>
       </Layout>
