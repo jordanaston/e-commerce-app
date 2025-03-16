@@ -54,8 +54,8 @@ const Summary = () => {
         <p>Summary</p>
       </div>
       <Divider className="bg-black opacity-20 mt-4 mb-6" />
-      <div className="flex justify-between sm:mx-8 text-sm">
-        <div className="flex flex-col gap-4 w-[40%]">
+      <div className="flex flex-col sm:flex-row justify-between sm:mx-8 text-sm">
+        <div className="flex flex-col gap-4 sm:w-[60%] md:w-[50%]">
           <div className="flex justify-between">
             <p className="text-grey-500">Subtotal:</p>
             <p>${subtotal.toFixed(2)}</p>
@@ -75,7 +75,7 @@ const Summary = () => {
         </div>
 
         <Button
-          className="w-[40%] sm:w-[25%]"
+          className="w-[40%] sm:w-[25%] sm:mt-0 mt-8 self-end sm:self-start"
           onClick={() => clearCart.mutate()}
           disabled={!cart?.products.length || clearCart.isPending}
         >

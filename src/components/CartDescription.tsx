@@ -96,7 +96,7 @@ const CartDescription = ({
         </div>
         <div className="flex-grow" />
         <div className="flex flex-col gap-2 items-end">
-          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
+          <div className="flex flex-row items-stretch sm:items-center gap-2">
             <Select value={removeQuantity} onValueChange={setRemoveQuantity}>
               <SelectTrigger className="w-full sm:w-[180px]">
                 <SelectValue placeholder="Quantity to remove" />
