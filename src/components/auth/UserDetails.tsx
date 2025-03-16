@@ -32,9 +32,9 @@ const UserDetails = ({ closePopover }: { closePopover: () => void }) => {
         </Button>
       </div>
       <p className="text-white/70 text-sm mt-2">
-        This is a simple e-commerce-app designed to represent a real-world
-        application. It&apos;s purpose is to showcase the following
-        technologies:
+        This is a simple full-stack e-commerce app designed to mimic a
+        real-world application. It&apos;s purpose is to demonstrate proficiency
+        in the following tech stack:
       </p>
       <ul className="text-white/70 list-disc list-inside my-2">
         <li>Next.js</li>
@@ -46,8 +46,9 @@ const UserDetails = ({ closePopover }: { closePopover: () => void }) => {
         <li>Zod</li>
       </ul>
       <p className="text-white/70 text-sm mt-2">
-        Please feel free to look around and test the app. You can do the
-        following...
+        Please feel free to look around and test the app. You can create a user,
+        log in/ out, click into item descriptions from the home page, add/ remove items in cart,
+        and &quot;checkout&quot;.
       </p>
       <Button
         onClick={logoutUser}
