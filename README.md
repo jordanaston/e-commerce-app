@@ -39,7 +39,7 @@ A simple e-commerce app built with Next.js. This project demonstrates a full-sta
 ### Type Safety & Validation
 
 - TypeScript implementation throughout
-- Zod schemas for runtime validation:
+- Zod schemas for validation:
   - User registration and login data
   - Cart operations
   - Product interactions
@@ -60,7 +60,7 @@ A simple e-commerce app built with Next.js. This project demonstrates a full-sta
 
 ### External API Integration
 
-- Integration with [FakeStore API](https://fakestoreapi.com/docs#tag/Products/operation/getProductById) for product data
+- Integration with <a href="https://fakestoreapi.com/" target="_blank" rel="noopener noreferrer">FakeStore API</a> for product data
 - Axios implementation for external API calls
 - Type-safe product interfaces matching external data
 
@@ -90,9 +90,9 @@ The application's UI/UX was roughly prototyped in Figma, focusing on:
 - Consistent spacing and typography
 - Darker theme color palette
 
-View the Figma design: [E-commerce UI Design](https://www.figma.com/design/jp9wHpJqBnak7PVewDk9RG/Untitled?node-id=0-1&t=6lm8b6l1MioD6DAy-1)
+View the Figma design: <a href="https://www.figma.com/design/jp9wHpJqBnak7PVewDk9RG/Untitled?node-id=0-1&t=6lm8b6l1MioD6DAy-1" target="_blank" rel="noopener noreferrer">E-commerce UI Design</a>
 
 ## Deployment
 
 This application is deployed on Vercel and can be accessed at:
-[https://e-commerce-app-amber-nine.vercel.app/](https://https://e-commerce-app-amber-nine.vercel.app/)
+<a href="https://e-commerce-app-amber-nine.vercel.app/" target="_blank" rel="noopener noreferrer">https://e-commerce-app-amber-nine.vercel.app/</a>
