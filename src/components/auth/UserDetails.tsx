@@ -53,8 +53,9 @@ const UserDetails = ({ closePopover }: { closePopover: () => void }) => {
         onClick={logoutUser}
         className="mt-4 mx-auto block hover:text-grey-500"
         disabled={isLoggingOut}
+        isLoading={isLoggingOut}
       >
-        {isLoggingOut ? "Logging out..." : "Logout"}
+        Logout
       </Button>
     </div>
   );

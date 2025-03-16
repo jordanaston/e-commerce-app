@@ -78,8 +78,9 @@ const Summary = () => {
           className="w-[40%] sm:w-[25%] sm:mt-0 mt-8 self-end sm:self-start"
           onClick={() => clearCart.mutate()}
           disabled={!cart?.products.length || clearCart.isPending}
+          isLoading={clearCart.isPending}
         >
-          {clearCart.isPending ? "Placing order..." : "Place order"}
+          Place order
         </Button>
       </div>
     </>

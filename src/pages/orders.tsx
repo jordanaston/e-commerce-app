@@ -47,8 +47,9 @@ const Orders = () => {
             onClick={() => clearCart.mutate()}
             className="hover:text-red hover:no-underline text-sm font-normal mr-[-16px] sm:mr-0"
             disabled={clearCart.isPending || !cart?.products.length}
+            isLoading={clearCart.isPending}
           >
-            {clearCart.isPending ? "Clearing..." : "Clear cart"}
+            Clear cart
             <IoTrashOutline className="text-xl" />
           </Button>
         </div>

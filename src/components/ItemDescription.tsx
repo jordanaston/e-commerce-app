@@ -77,9 +77,10 @@ const ItemDescription = ({ product }: { product: Product }) => {
         <Button
           onClick={handleAddToCart}
           disabled={addToCart.isPending}
+          isLoading={addToCart.isPending}
           className="flex justify-center items-center p-4"
         >
-          {addToCart.isPending ? "Adding to cart..." : "Add to cart"}
+          Add to cart
         </Button>
       </div>
     </div>

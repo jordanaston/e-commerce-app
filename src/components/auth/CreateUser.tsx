@@ -98,8 +98,9 @@ const CreateUser = ({ closePopover }: { closePopover: () => void }) => {
         onClick={form.handleSubmit(onSubmit)}
         className="mt-4 hover:text-grey-500"
         disabled={createUser.isPending || !form.formState.isValid}
+        isLoading={createUser.isPending}
       >
-        {createUser.isPending ? "Creating..." : "Create User"}
+        Create User
       </Button>
     </Form>
   );

@@ -101,8 +101,9 @@ const LoginUser = ({ closePopover }: { closePopover: () => void }) => {
         onClick={form.handleSubmit(onSubmit)}
         className="mt-4 hover:text-grey-500"
         disabled={loginUser.isPending || !form.formState.isValid}
+        isLoading={loginUser.isPending}
       >
-        {loginUser.isPending ? "Logging in..." : "Login"}
+        Login
       </Button>
     </Form>
   );

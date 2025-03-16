@@ -125,8 +125,9 @@ const CartDescription = ({
                 !removeQuantity ||
                 removeQuantity === "default"
               }
+              isLoading={removeFromCart.isPending}
             >
-              {removeFromCart.isPending ? "Removing..." : "Remove from cart"}
+              Remove from cart
             </Button>
           </div>
         </div>

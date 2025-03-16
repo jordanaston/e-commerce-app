@@ -10,6 +10,7 @@ const Home = () => {
     error,
     hasNextPage,
     fetchNextPage,
+    isFetchingNextPage,
   } = trpc.product.getAllProducts.useInfiniteQuery(["products"], {
     getNextPageParam: (lastPage) => lastPage.nextCursor,
   });
@@ -29,7 +30,11 @@ const Home = () => {
         </div>
         {hasNextPage && (
           <div className="flex justify-center">
-            <Button onClick={() => fetchNextPage()} className="mt-12">
+            <Button
+              onClick={() => fetchNextPage()}
+              className="mt-12"
+              isLoading={isFetchingNextPage}
+            >
               Load More...
             </Button>
           </div>
