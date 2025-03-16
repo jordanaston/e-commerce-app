@@ -29,8 +29,9 @@ export const productRouter = router({
     .query(async ({ input }) => {
       const products = await Promise.all(
         input.ids.map((id) =>
-          axios.get<Product>(`https://fakestoreapi.com/products/${id}`)
-            .then(res => res.data)
+          axios
+            .get<Product>(`https://fakestoreapi.com/products/${id}`)
+            .then((res) => res.data)
         )
       );
       return products;

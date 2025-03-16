@@ -1,132 +1,98 @@
-## Overview
+# E-Commerce Application
 
-Develop a responsive e-commerce web application that allows users to browse products, view product details, and add products to a shopping cart.
-The application should integrate with a backend API to fetch product data.
+A simple e-commerce app built with Next.js. This project demonstrates a full-stack implementation with secure authentication, cart management, and a responsive user interface.
 
-- The goal is a clear demonstration of quality, functionality, and thought process.
-- **Timebox:** The test is designed to be completed in 6 hours or less.
-- **Commit Often:** Show your working process through regular commits.
-- **External dependencies:** Use any external dependencies you see fit, you do not need to implement everything from scratch.
-- **Keep It Minimal:** Use lightweight libraries and avoid adding unnecessary features, or over-engineering the solution.
+## Tech Stack
 
-## Requirements
+### Core Technologies
 
-### Functional
+- **Next.js 15.1.7** - React framework for production
+- **TypeScript** - For type-safe code
+- **tRPC** - End-to-end typesafe API
+- **MongoDB & Mongoose** - Database and ODM
+- **Tailwind CSS** - Utility-first styling
+- **shadcn/ui** - UI component library
 
-1. **Product Listing Page**
-    - Display a list of products with images, names, and prices.
-    - Implement pagination or infinite scrolling.
+## Key Features
 
-2. **Product Detail Page**
-    - Show detailed information about the selected product.
-    - Include an "Add to Cart" button.
+### Authentication & Security
 
-3. **Shopping Cart**
-    - Allow users to view products added to their cart.
-    - Display the total price and quantity of items.
-    - Enable users to remove items from the cart.
+- JWT-based authentication flow with secure token management
+- Password encryption using bcrypt
+- Protected API routes using tRPC middleware
+- Client-side token storage
 
-4. **Responsive Design**
-    - Ensure the application is usable on desktop, tablet, and mobile devices.
+### API Integration & Data Management
 
-### Technical
+- **tRPC Implementation**
 
-- **Frameworks & Libraries**
-    - **Next.js** with **TypeScript**.
-    - Style components using **Tailwind CSS**.
+  - Strongly typed procedures for user, product, and cart operations
+  - Protected routes using middleware authentication
+  - Custom error handling and response formatting
+  - Integration with Mongoose models for type safety
 
-- **State Management**
-    - Manage application state efficiently.
+- **Database Structure**
+  - MongoDB integration using Mongoose schemas
+  - Type-safe models for Users and Cart items
+  - Efficient data relationships between users and their carts
 
-- **TypeScript**
-    - Use TypeScript for type-checking and code quality.
-    - 
-- **API Integration**
-    - Fetch data from a provided RESTful API endpoint.
-    - Handle loading states and error handling gracefully.
-    - API should be typed using TypeScript.
+### Type Safety & Validation
 
-- **Code Quality**
-    - Apply **SOLID principles** and design patterns.
-    - Write consistent, clean, maintainable, and scalable code.
-    - Create universal and reusable UI components.
+- TypeScript implementation throughout
+- Zod schemas for runtime validation:
+  - User registration and login data
+  - Cart operations
+  - Product interactions
+- Shared types between frontend and backend using tRPC inference
 
-- **Testing**
-    - Write unit tests for critical components (optional).
+### Frontend Architecture
+
+- **Custom Hooks**
+
+  - `useGetUserInfo` - Managing user authentication state
+  - `useLocalStorage` - Type-safe wrapper for browser's localStorage
+
+- **Responsive Design**
+  - Mobile-first approach using Tailwind CSS
+  - Smooth transitions and animations
+  - Adaptive layouts for different screen sizes
+  - Custom component styling with shadcn/ui integration
+
+### External API Integration
+
+- Integration with [FakeStore API](https://fakestoreapi.com/docs#tag/Products/operation/getProductById) for product data
+- Axios implementation for external API calls
+- Type-safe product interfaces matching external data
+
+## Development Practices
+
+- Monorepo structure for efficient code organization
+- Component-driven development with shadcn/ui and custom components
+- Mobile-first responsive design
+- Type-safe development throughout
+- Clean code architecture following SOLID principles
 
 ## Getting Started
 
-1. **Fork this Repository**
-    - You can start by forking this repository.
+```bash
+# Install dependencies
+yarn install
 
-2. **Setup Project**
-    - Initialize a new Next.js project with TypeScript.
-    - Install Tailwind CSS and configure it.
+# Start the development server
+yarn dev
+```
 
-3. **API Endpoint**
-    - Use a mock API for product data such as [Fake Store API](https://fakestoreapi.com/).
+## Design Process
 
-4. **Development**
-    - Follow the requirements to build the application.
-    - Ensure the application builds and runs without errors.
+The application's UI/UX was roughly prototyped in Figma, focusing on:
 
-## Submission Guidelines
+- Clean, minimalist e-commerce layout
+- Consistent spacing and typography
+- Darker theme color palette
 
-- **Repository**
-    - Push your code to a **public GitHub repository**.
-    - Ensure the repository has a clear commit history, and commit regularly.
-    - Ensure the repository is a fork of this repository.
+View the Figma design: [E-commerce UI Design](https://www.figma.com/design/jp9wHpJqBnak7PVewDk9RG/Untitled?node-id=0-1&t=6lm8b6l1MioD6DAy-1)
 
-- **README File**
-    - Include instructions on how to run your application.
-    - Describe your thought process and any architectural decisions.
-    - Mention any trade-offs or assumptions made during development.
+## Deployment
 
-- **Deployment**
-    - (Optional) Deploy your application using services like **Vercel**.
-    - Provide a link to the live application if deployed.
-
-- **Submission**
-    - Email us the link to your GitHub repository (and live demo if available) at [sam.thompson@playa3ull.games].
-
-## Evaluation Criteria
-
-- **Functionality**
-    - Does the application meet all the functional requirements?
-
-- **Code Quality**
-    - Is the code clean, well-organized, and maintainable?
-    - Are SOLID principles and design patterns appropriately applied?
-
-- **Technical Skills**
-    - Effective use of React, TypeScript, and Tailwind CSS.
-    - Proper integration with the backend API.
-
-- **User Experience**
-    - Is the UI responsive and user-friendly?
-    - Does the design consider good UX practices?
-
-- **Problem-Solving**
-    - How were challenges addressed?
-    - Were creative solutions implemented?
-
-- **Documentation**
-    - Clarity of the README file.
-    - Use of comments and documentation within the code.
-
-## Extra Credit
-
-*These are not required but can showcase your additional skills:*
-
-- **GraphQL or tRPC**
-    - Use GraphQL or tRPC instead of REST for API interactions.
-
-- **Monorepo Setup**
-    - Organize your project using a monorepo approach.
-
-- **SEO Enhancements**
-    - Implement SEO optimisation.
-
-- **E-commerce Features**
-    - Add user authentication.
-    - Implement a checkout process.
+This application is deployed on Vercel and can be accessed at:
+[https://e-commerce-app-amber-nine.vercel.app/](https://https://e-commerce-app-amber-nine.vercel.app/)
