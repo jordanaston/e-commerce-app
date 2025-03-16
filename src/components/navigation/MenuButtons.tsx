@@ -14,7 +14,7 @@ const MenuButtons = () => {
 
   return (
     <>
-      <div className="flex items-center space-x-4 pl-8">
+      <div className="flex items-center space-x-2 sm:space-x-4 pl-8">
         {user && (
           <Link href="/" passHref>
             <Button

@@ -37,7 +37,7 @@ const Orders = () => {
   return (
     <Layout>
       <div className="min-h-screen max-w-screen-lg mx-auto p-8 pb-20 gap-16 sm:p-20">
-        <div className="flex justify-between items-center">
+        <div className="flex justify-between items-center mx-auto">
           <div className="flex items-center gap-2">
             <p>Items in cart</p>
             <IoCartOutline className="text-xl" />
@@ -45,7 +45,7 @@ const Orders = () => {
           <Button
             variant={"link"}
             onClick={() => clearCart.mutate()}
-            className="hover:text-red hover:no-underline text-sm font-normal"
+            className="hover:text-red hover:no-underline text-sm font-normal mr-[-16px] sm:mr-0"
             disabled={clearCart.isPending || !cart?.products.length}
           >
             {clearCart.isPending ? "Clearing..." : "Clear cart"}
@@ -55,7 +55,7 @@ const Orders = () => {
         <Divider className="bg-black opacity-20 mt-2 mb-6" />
         {productData ? (
           productData.map((product, index) => (
-            <div key={index} className="flex flex-col items-center mb-8">
+            <div key={index} className="mb-8">
               <CartDescription product={product} cart={cart} />
             </div>
           ))

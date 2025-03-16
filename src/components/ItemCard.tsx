@@ -36,9 +36,9 @@ const ItemCard = ({ product }: { product: Product }) => {
     <div className="flex flex-col flex-wrap justify-center">
       <div
         key={product.id}
-        className="flex flex-col bg-white w-[250px] h-[350px] shadow-md items-center justify-center"
+        className="flex flex-col bg-white w-[250px] h-[350px] shadow-md items-center justify-center relative animated-border"
       >
-        <Link href={`/product?id=${product.id}`} className="hover:opacity-65">
+        <Link href={`/product?id=${product.id}`} className="">
           <div className="relative w-[150px] h-[150px]">
             <Image
               src={product.image}
@@ -46,7 +46,7 @@ const ItemCard = ({ product }: { product: Product }) => {
               fill
               sizes="150px"
               style={{ objectFit: "contain" }}
-              className="mx-auto"
+              className="mx-auto hover:translate-y-[-5px] transition-transform duration-300"
             />
           </div>
         </Link>

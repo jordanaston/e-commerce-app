@@ -4,13 +4,11 @@ import { FaStar } from "react-icons/fa";
 import { Button } from "./ui/button";
 import Link from "next/link";
 import { Divider } from "antd";
-import { useRouter } from "next/router";
 import { trpc } from "@/utils/trpc";
 import { toast } from "sonner";
 import { useGetUserInfo } from "@/hooks/getUserInfo";
 
 const ItemDescription = ({ product }: { product: Product }) => {
-  const router = useRouter();
   const { user } = useGetUserInfo();
   const utils = trpc.useUtils();
   const addToCart = trpc.cart.addToCart.useMutation({
@@ -36,16 +34,10 @@ const ItemDescription = ({ product }: { product: Product }) => {
   };
 
   return (
-    <div className="flex">
-      <Button
-        onClick={() => router.back()}
-        className="bg-transparent text-grey-900 border-none shadow-none hover:bg-transparent"
-      >
-        ← Back
-      </Button>
+    <div className="flex flex-col sm:flex-row mx-auto justify-center">
       <div
         key={product.id}
-        className="flex flex-col bg-white w-[250px] shadow-md items-center justify-center p-4"
+        className="flex flex-col bg-white w-full sm:w-[250px] shadow-md items-center justify-center p-4"
       >
         <Link href={`/product?id=${product.id}`}>
           <div className="relative w-[200px] h-[200px]">
@@ -55,12 +47,12 @@ const ItemDescription = ({ product }: { product: Product }) => {
               fill
               sizes="200px"
               style={{ objectFit: "contain" }}
-              className="mx-auto"
+              className="mx-auto relative w-[200px] h-[200px]"
             />
           </div>
         </Link>
       </div>
-      <div className="flex flex-col bg-grey-200 w-[550px] p-4 shadow-lg">
+      <div className="flex flex-col bg-grey-200 w-full sm:w-[550px] p-4 shadow-lg">
         <p className="text-xl font-medium">{product.title}</p>
         <p className="text-sm font-medium capitalize">{product.category}</p>
 

@@ -1,7 +1,9 @@
 import ItemDescription from "@/components/ItemDescription";
 import Layout from "@/components/Layout";
+import { Button } from "@/components/ui/button";
 import { trpc } from "@/utils/trpc";
 import { useRouter } from "next/router";
+import { IoIosArrowBack } from "react-icons/io";
 
 const Product = () => {
   const router = useRouter();
@@ -21,7 +23,10 @@ const Product = () => {
   if (error) return <div>Error: {error.message}</div>;
   return (
     <Layout>
-      <div className="items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
+      <div className="min-h-screen p-8 pb-20 gap-16 sm:p-20">
+        <Button onClick={() => router.back()} className="mb-4">
+          <IoIosArrowBack className="text-xl" />
+        </Button>
         {product && <ItemDescription product={product} />}
       </div>
     </Layout>
