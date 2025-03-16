@@ -36,7 +36,7 @@ const Orders = () => {
 
   return (
     <Layout>
-      <div className="min-h-screen max-w-screen-lg mx-auto p-8 pb-20 gap-16 sm:p-20">
+      <div className="min-h-screen max-w-screen-lg mx-auto p-8 pb-20">
         <div className="flex justify-between items-center mx-auto">
           <div className="flex items-center gap-2">
             <p>Items in cart</p>

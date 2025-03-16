@@ -23,7 +23,7 @@ const Product = () => {
   if (error) return <div>Error: {error.message}</div>;
   return (
     <Layout>
-      <div className="min-h-screen p-8 pb-20 gap-16 sm:p-20">
+      <div className="min-h-screen p-8 pb-16">
         <Button onClick={() => router.back()} className="mb-4">
           <IoIosArrowBack className="text-xl" />
         </Button>

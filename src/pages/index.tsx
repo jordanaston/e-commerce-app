@@ -19,7 +19,7 @@ const Home = () => {
   if (error) return <div>Error: {error.message}</div>;
   return (
     <Layout>
-      <div className="container mx-auto sm:px-4 py-16 transition-all duration-500 ease-out will-change-auto">
+      <div className="container mx-auto sm:px-4 pt-8 pb-16 transition-all duration-500 ease-out will-change-auto">
         <div className="flex flex-wrap gap-4 justify-center transition-all duration-500 ease-out will-change-[transform,width,margin] motion-reduce:transition-none">
           {products &&
             products.pages.map((page) =>

@@ -36,7 +36,7 @@ const ItemCard = ({ product }: { product: Product }) => {
     <div className="flex flex-col flex-wrap justify-center">
       <div
         key={product.id}
-        className="flex flex-col bg-white w-[180px] h-[250px] sm:w-[250px] sm:h-[350px] shadow-md items-center justify-center relative animated-border"
+        className="flex flex-col bg-white w-[180px] h-[250px] sm:w-[250px] sm:h-[320px] shadow-md items-center justify-center relative animated-border"
       >
         <Link href={`/product?id=${product.id}`} className="">
           <div className="relative w-[100px] h-[100px] sm:w-[150px] sm:h-[150px]">
@@ -51,7 +51,7 @@ const ItemCard = ({ product }: { product: Product }) => {
           </div>
         </Link>
       </div>
-      <div className="flex flex-col justify-between bg-grey-200 w-[180px] h-[250px] sm:w-[250px] sm:h-[350px] p-4 shadow-lg">
+      <div className="flex flex-col justify-between bg-grey-200 w-[180px] h-[250px] sm:w-[250px] sm:h-[280px] p-4 shadow-lg">
         <p className="text-md sm:text-2xl font-bold">${product.price}</p>
         <div className="flex flex-col justify-start min-h-36">
           <p className="text-xs sm:text-sm">{product.title}</p>
